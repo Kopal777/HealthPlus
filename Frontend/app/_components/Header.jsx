@@ -24,7 +24,7 @@ const Header = () => {
     return (
         <div className='flex justify-between items-center p-4 md:px-20 shadow-[#0e1525] shadow-md'>
             <div className='flex items-center gap-12'>
-                <Image
+                <Image className='cursor-pointer'
                     src="/logo.svg"
                     alt='logo'
                     width={100}
