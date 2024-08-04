@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Search } from 'lucide-react'
 import GlobalApi from '@/_utils/GlobalApi'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const CategorySearch = () => {
 
@@ -36,14 +37,14 @@ const CategorySearch = () => {
       {/* Display list of categories */}
       <div className='grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 mt-8'>
         {categoryList.length>0 ? categoryList.map((item, index) => index<6 && (
-            <div key={index} className='flex flex-col text-center items-center mx-3 my-5 rounded-xl bg-[#1d2437] hover:bg-[#353e55] hover:scale-110 transition-all ease-in-out cursor-pointer p-5'>
+            <Link href={'/search/'+item.attributes.Name} key={index} className='flex flex-col text-center items-center mx-3 my-5 rounded-xl bg-[#1d2437] hover:bg-[#353e55] hover:scale-110 transition-all ease-in-out cursor-pointer p-5'>
               <Image
                 src={item.attributes?.Icon?.data[0].attributes?.url}
                 alt='icon'
                 width={80}
                 height={80} />
               <label className='mt-4'>{item.attributes?.Name}</label>
-            </div>
+            </Link>
         ))
       :
       [1,2,3,4,5,6].map((item, index)=>(
