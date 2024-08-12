@@ -1,9 +1,24 @@
+"use client"
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { RegisterLink, LoginLink, LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
+
 
 const Header = () => {
+
+    const { user } = useKindeBrowserClient();
+    useEffect(() => {
+        console.log("Userinfo", user);
+    }, [user]);
+
     const Menu = [
         {
             id: 1,
@@ -32,12 +47,34 @@ const Header = () => {
                 <ul className='sm:flex gap-8 hidden'>
                     {Menu.map((item, index) => (
                         <Link key={index} href={item.path}>
-                        <li className='text-white hover:text-primary cursor-pointer hover:scale-105 transition-all ease-in-out'>{item.name}</li>
+                            <li className='text-white hover:text-primary cursor-pointer hover:scale-105 transition-all ease-in-out'>{item.name}</li>
                         </Link>
                     ))}
                 </ul>
             </div>
-            <Button>Get Started</Button>
+            {user ?
+                <Popover>
+                    <PopoverTrigger>
+                        <Image className='rounded-full cursor-pointer'
+                            src={user?.picture}
+                            alt='profile'
+                            width={50}
+                            height={50} />
+                    </PopoverTrigger>
+                    <PopoverContent className="w-44">
+                        <ul className='flex flex-col gap-y-2'>
+                            <li className='cursor-pointer hover:bg-slate-100 px-2 py-0.5 rounded-md'>Profile</li>
+                            <li className='cursor-pointer hover:bg-slate-100 px-2 py-0.5 rounded-md'>My Booking</li>
+                            <li className='cursor-pointer hover:bg-slate-100 px-2 py-0.5 rounded-md'>
+                                <LogoutLink>Log Out</LogoutLink>
+                            </li>
+                        </ul>
+                    </PopoverContent>
+                </Popover>
+                : <LoginLink> <Button>Get Started</Button> </LoginLink>
+            }
+
+
         </div>
     )
 }
